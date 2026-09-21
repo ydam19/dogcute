@@ -1,0 +1,57 @@
+.wrapper {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 10px 14px;
+  border: 1.5px solid #e8b4c0;
+  border-radius: 10px;
+  background: #fff;
+  transition: border-color 0.15s;
+}
+
+.wrapper:focus-within {
+  border-color: #C4607A;
+}
+
+.wrapperError {
+  border-color: #ef4444;
+}
+
+.wrapperDisabled {
+  background: #f5e8eb;
+  border-color: #e8b4c0;
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.input {
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 1rem;
+  color: #3D1A24;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  padding: 0;
+  font-family: 'Gaegu', 'Apple SD Gothic Neo', sans-serif;
+}
+
+.input::placeholder {
+  color: #d4a0b0;
+}
+
+.yearInput {
+  width: 3.8em;
+}
+
+.partInput {
+  width: 1.8em;
+}
+
+.sep {
+  color: #c08090;
+  font-size: 1rem;
+  user-select: none;
+  flex-shrink: 0;
+  font-family: 'Gaegu', 'Apple SD Gothic Neo', sans-serif;
+}

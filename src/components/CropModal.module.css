@@ -1,0 +1,125 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: #111;
+  z-index: 400;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── 상단 바 ── */
+.topBar {
+  height: 56px;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #1a1a1a;
+  flex-shrink: 0;
+  padding-top: env(safe-area-inset-top, 0px);
+}
+
+.topTitle {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.cancelBtn {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+  cursor: pointer;
+  padding: 8px 4px;
+}
+
+.doneBtn {
+  background: #2E5946;
+  border: none;
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 7px 16px;
+  border-radius: 8px;
+  transition: opacity 0.15s;
+}
+
+.doneBtnDisabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ── 크로퍼 컨테이너 (react-easy-crop 필수: position relative + 명시적 크기) ── */
+.cropContainer {
+  flex: 1;
+  position: relative;
+  min-height: 0;  /* flex child overflow 방지 */
+}
+
+/* ── 하단 컨트롤 ── */
+.controls {
+  flex-shrink: 0;
+  padding: 18px 24px calc(16px + env(safe-area-inset-bottom, 0px));
+  background: #1a1a1a;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.zoomRow {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* 줌 슬라이더 */
+.slider {
+  flex: 1;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 3px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.25);
+  outline: none;
+  cursor: pointer;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #fff;
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+}
+
+.slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+.hint {
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.38);
+  text-align: center;
+  margin: 0;
+}
+
+.loadingText {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.9rem;
+}

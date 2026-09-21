@@ -1,0 +1,170 @@
+.page {
+  min-height: 100dvh;
+  background: #fdf4f6;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: env(safe-area-inset-bottom, 20px);
+}
+
+.header {
+  background: linear-gradient(135deg, #8C2D45 0%, #C4607A 60%, #D4758A 100%);
+  padding: 40px 20px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.backBtn {
+  background: none;
+  border: none;
+  color: rgba(255,255,255,0.85);
+  font-size: 0.85rem;
+  cursor: pointer;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.title {
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin: 0;
+  font-family: 'Gaegu', 'Apple SD Gothic Neo', sans-serif;
+}
+
+/* ── 카드 타입 탭 ── */
+.tabBar {
+  display: flex;
+  background: #fff;
+  border-bottom: 1.5px solid #f3d0da;
+}
+
+.tab {
+  flex: 1;
+  padding: 13px 0;
+  background: none;
+  border: none;
+  border-bottom: 2.5px solid transparent;
+  margin-bottom: -1.5px;
+  font-family: 'Gaegu', 'Apple SD Gothic Neo', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #b08090;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+  letter-spacing: 0.01em;
+}
+
+.tab:active {
+  background: #fdf4f6;
+}
+
+.tabActive {
+  color: #C4607A;
+  border-bottom-color: #C4607A;
+}
+
+.cardWrapper {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 16px;
+}
+
+/* 캡처 대상 — 카드 비율 래퍼가 내부에서 aspect-ratio를 유지함 */
+.cardCapture {
+  width: 100%;
+  max-width: 480px;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 0 16px 20px;
+}
+
+/* 이미지 저장 버튼 */
+.saveBtn {
+  width: 100%;
+  padding: 15px;
+  background: linear-gradient(135deg, #8C2D45 0%, #C4607A 100%);
+  color: #fff;
+  font-size: 1.15rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: background 0.15s, opacity 0.15s;
+  font-family: 'Gaegu', 'Apple SD Gothic Neo', sans-serif;
+}
+
+.saveBtn:active {
+  background: #A84D65;
+}
+
+.saveBtnLoading {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* 로딩 스피너 */
+.spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2.5px solid rgba(255,255,255,0.35);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.newBtn {
+  width: 100%;
+  padding: 15px;
+  background: #fff;
+  color: #C4607A;
+  font-size: 1.1rem;
+  font-weight: 700;
+  border: 1.5px solid #e8b4c0;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.15s;
+  font-family: 'Gaegu', 'Apple SD Gothic Neo', sans-serif;
+}
+
+.newBtn:active {
+  background: #FCE8EF;
+}
+
+/* 저장 중 딤 오버레이 */
+.savingOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  backdrop-filter: blur(2px);
+}
+
+.savingOverlay p {
+  background: #fff;
+  padding: 18px 32px;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #1a4a8a;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+}

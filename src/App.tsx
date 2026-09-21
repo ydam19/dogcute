@@ -1,0 +1,18 @@
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { PetProvider } from './context/PetContext'
+import { InputForm } from './pages/InputForm'
+import { CardPage } from './pages/CardPage'
+import './index.css'
+
+export default function App() {
+  return (
+    <PetProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<InputForm />} />
+          <Route path="/card" element={<CardPage />} />
+        </Routes>
+      </BrowserRouter>
+    </PetProvider>
+  )
+}

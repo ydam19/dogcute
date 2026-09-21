@@ -1,0 +1,270 @@
+.page {
+  min-height: 100dvh;
+  background: #fdf4f6;
+  padding-bottom: env(safe-area-inset-bottom, 20px);
+  font-family: 'Gaegu', 'Apple SD Gothic Neo', sans-serif;
+}
+
+.header {
+  background: linear-gradient(135deg, #8C2D45 0%, #C4607A 60%, #D4758A 100%);
+  padding: 40px 20px 28px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* 헤더 배경 발바닥 장식 */
+.header::before {
+  content: '🐾';
+  position: absolute;
+  font-size: 4rem;
+  opacity: 0.08;
+  top: 6px;
+  left: 12px;
+  pointer-events: none;
+}
+.header::after {
+  content: '🐾';
+  position: absolute;
+  font-size: 3rem;
+  opacity: 0.08;
+  bottom: 6px;
+  right: 16px;
+  pointer-events: none;
+}
+
+.title {
+  color: #fff;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0 0 4px;
+  font-family: 'Gaegu', 'Apple SD Gothic Neo', sans-serif;
+  letter-spacing: 0.02em;
+}
+
+.subtitle {
+  color: rgba(255,255,255,0.85);
+  font-size: 0.95rem;
+  margin: 0;
+  font-family: 'Gaegu', 'Apple SD Gothic Neo', sans-serif;
+}
+
+.form {
+  padding: 20px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.sectionTitle {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #7C3048;
+  font-family: 'Gaegu', 'Apple SD Gothic Neo', sans-serif;
+}
+
+/* 모름 / 기억 안남 체크박스 */
+.unknownLabel {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #b08090;
+  font-family: 'Gaegu', 'Apple SD Gothic Neo', sans-serif;
+  cursor: pointer;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+.unknownCheckbox {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 17px;
+  height: 17px;
+  border: 1.5px solid #e8b4c0;
+  border-radius: 4px;
+  background: #fff;
+  cursor: pointer;
+  position: relative;
+  flex-shrink: 0;
+  transition: background 0.12s, border-color 0.12s;
+}
+
+.unknownCheckbox:checked {
+  background: #C4607A;
+  border-color: #C4607A;
+}
+
+.unknownCheckbox:checked::after {
+  content: '';
+  position: absolute;
+  left: 4px;
+  top: 1px;
+  width: 5px;
+  height: 9px;
+  border: 2px solid #fff;
+  border-top: none;
+  border-left: none;
+  transform: rotate(45deg);
+}
+
+.hint {
+  font-weight: 400;
+  color: #b08090;
+  font-size: 0.85rem;
+  font-family: 'Gaegu', 'Apple SD Gothic Neo', sans-serif;
+}
+
+/* 사진 업로드 */
+.photoUpload {
+  width: 100px;
+  height: 120px;
+  border: 2px dashed #e8b4c0;
+  border-radius: 8px;
+  cursor: pointer;
+  overflow: hidden;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.15s;
+}
+
+.photoUpload:active {
+  border-color: #C4607A;
+}
+
+.photoPreview {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.photoEmpty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  color: #c08090;
+  font-size: 0.85rem;
+  font-family: 'Gaegu', 'Apple SD Gothic Neo', sans-serif;
+}
+
+.photoIcon {
+  font-size: 1.8rem;
+}
+
+.retakeBtn {
+  margin-top: 6px;
+  background: none;
+  border: none;
+  font-size: 0.88rem;
+  color: #C4607A;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  padding: 0;
+  font-family: 'Gaegu', 'Apple SD Gothic Neo', sans-serif;
+}
+
+/* 토글 */
+.toggleGroup {
+  display: flex;
+  gap: 8px;
+}
+
+.toggleBtn {
+  flex: 1;
+  padding: 10px 0;
+  border: 1.5px solid #e8b4c0;
+  border-radius: 10px;
+  background: #fff;
+  font-size: 1rem;
+  color: #9a6070;
+  cursor: pointer;
+  font-weight: 700;
+  transition: all 0.15s;
+  font-family: 'Gaegu', 'Apple SD Gothic Neo', sans-serif;
+}
+
+.toggleBtn.active {
+  border-color: #C4607A;
+  background: #FCE8EF;
+  color: #8C2D45;
+  font-weight: 700;
+}
+
+/* 인풋 */
+.input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1.5px solid #e8b4c0;
+  border-radius: 10px;
+  font-size: 1rem;
+  color: #3D1A24;
+  background: #fff;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.15s;
+  -webkit-appearance: none;
+  font-family: 'Gaegu', 'Apple SD Gothic Neo', sans-serif;
+}
+
+.input:focus {
+  border-color: #C4607A;
+}
+
+.inputError {
+  border-color: #ef4444;
+}
+
+.error {
+  font-size: 0.85rem;
+  color: #ef4444;
+  margin: 0;
+  font-family: 'Gaegu', 'Apple SD Gothic Neo', sans-serif;
+}
+
+.charCount {
+  font-size: 0.82rem;
+  color: #b08090;
+  text-align: right;
+  margin: 0;
+  font-family: 'Gaegu', 'Apple SD Gothic Neo', sans-serif;
+}
+
+/* 제출 버튼 */
+.submitBtn {
+  margin-top: 8px;
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(135deg, #8C2D45 0%, #C4607A 100%);
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: opacity 0.15s;
+  font-family: 'Gaegu', 'Apple SD Gothic Neo', sans-serif;
+  letter-spacing: 0.03em;
+}
+
+.submitBtn:active {
+  opacity: 0.85;
+}

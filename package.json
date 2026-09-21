@@ -1,0 +1,26 @@
+{
+  "name": "dogcute",
+  "version": "1.0.0",
+  "description": "우리집 강아지 귀여워 - 반려동물 신분증 만들기",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "type": "module",
+  "dependencies": {
+    "heic2any": "^0.0.4",
+    "html2canvas": "^1.4.1",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "react-easy-crop": "^6.2.3",
+    "react-router-dom": "^7.18.4"
+  },
+  "devDependencies": {
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.1.1",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.0"
+  }
+}
