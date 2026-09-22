@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import styles from './DateInput.module.css'
 
 interface DateInputProps {
@@ -22,12 +22,32 @@ export function DateInput({ value, onChange, hasError, disabled }: DateInputProp
   const monthInputRef = useRef<HTMLInputElement>(null)
   const dayInputRef = useRef<HTMLInputElement>(null)
 
+  useEffect(() => {
+    const parts = value.split('-')
+    const y = parts[0] ?? ''
+    const m = parts[1] ?? ''
+    const d = parts[2] ?? ''
+    yearRef.current = y
+    monthRef.current = m
+    dayRef.current = d
+    setYear(y)
+    setMonth(m)
+    setDay(d)
+  }, [value])
+
   function emit() {
     const y = yearRef.current
     const m = monthRef.current
     const d = dayRef.current
     if (y.length === 4 && m.length === 2 && d.length === 2) {
-      onChange(`${y}-${m}-${d}`)
+      // 실제로 존재하는 날짜인지 확인 (예: 2월 30일 차단)
+      const date = new Date(`${y}-${m}-${d}`)
+      const valid =
+        !isNaN(date.getTime()) &&
+        date.getFullYear() === Number(y) &&
+        date.getMonth() + 1 === Number(m) &&
+        date.getDate() === Number(d)
+      onChange(valid ? `${y}-${m}-${d}` : '')
     } else {
       onChange('')
     }
@@ -78,7 +98,7 @@ export function DateInput({ value, onChange, hasError, disabled }: DateInputProp
         type="text"
         inputMode="numeric"
         placeholder="YYYY"
-        value={disabled ? '' : year}
+        value={year}
         maxLength={4}
         onChange={handleYear}
         onKeyDown={e => blockIfFull(e, year, 4)}
@@ -92,7 +112,7 @@ export function DateInput({ value, onChange, hasError, disabled }: DateInputProp
         type="text"
         inputMode="numeric"
         placeholder="MM"
-        value={disabled ? '' : month}
+        value={month}
         maxLength={2}
         onChange={handleMonth}
         onKeyDown={e => blockIfFull(e, month, 2)}
@@ -106,7 +126,7 @@ export function DateInput({ value, onChange, hasError, disabled }: DateInputProp
         type="text"
         inputMode="numeric"
         placeholder="DD"
-        value={disabled ? '' : day}
+        value={day}
         maxLength={2}
         onChange={handleDay}
         onKeyDown={e => blockIfFull(e, day, 2)}

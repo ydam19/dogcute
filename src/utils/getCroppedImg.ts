@@ -13,12 +13,6 @@ export async function getCroppedImg(imageSrc: string, pixelCrop: Area): Promise<
   // 1:1이므로 width == height. 큰 쪽을 OUTPUT_MAX_PX로 캡.
   const size = Math.min(Math.max(pixelCrop.width, pixelCrop.height), OUTPUT_MAX_PX)
 
-  console.log('[getCroppedImg] 원본:', img.naturalWidth, '×', img.naturalHeight)
-  console.log('[getCroppedImg] pixelCrop:', pixelCrop.x, pixelCrop.y,
-    pixelCrop.width, '×', pixelCrop.height,
-    '비율:', (pixelCrop.width / pixelCrop.height).toFixed(4), '(1:1 = 1.0000)')
-  console.log('[getCroppedImg] 출력:', size, '×', size, '(1:1 정사각형)')
-
   const canvas = document.createElement('canvas')
   canvas.width = size
   canvas.height = size

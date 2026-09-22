@@ -1,6 +1,6 @@
 /* ================================================================
    반려동물 신분증 카드
-   색 팔레트: 파스텔 핑크 계열
+   색 팔레트: 사랑스러운 핑크 + 연보라 포인트
    ================================================================ */
 
 /* ── 비율 컨테이너: 실물 카드 856:540 ≈ 1.585:1 ── */
@@ -15,15 +15,15 @@
 .card {
   position: absolute;
   inset: 0;
-  background: #FFF0F5;
-  border-radius: 14px;
+  background: linear-gradient(160deg, #FFF5FA 0%, #FAF0FF 100%);
+  border-radius: 22px;
   overflow: hidden;
-  font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', '맑은 고딕', sans-serif;
+  font-family: 'Gaegu', 'Apple SD Gothic Neo', '맑은 고딕', sans-serif;
   box-shadow:
-    0 8px 32px rgba(196, 96, 122, 0.22),
-    0 2px 8px rgba(196, 96, 122, 0.12),
+    0 10px 36px rgba(196, 80, 140, 0.26),
+    0 3px 10px rgba(180, 100, 200, 0.14),
     inset 0 1px 0 rgba(255, 255, 255, 0.9);
-  border: 1px solid rgba(196, 96, 122, 0.2);
+  border: 1.5px solid rgba(210, 120, 180, 0.25);
   display: flex;
   flex-direction: column;
 }
@@ -32,7 +32,7 @@
    헤더
    ================================================================ */
 .header {
-  background: linear-gradient(135deg, #8C2D45 0%, #C4607A 55%, #D4758A 100%);
+  background: linear-gradient(135deg, #8C2D55 0%, #C4507A 45%, #C080B8 100%);
   padding: 5.5% 4.5% 5%;
   display: flex;
   align-items: center;
@@ -52,8 +52,8 @@
   width: 8.5%;
   aspect-ratio: 1;
   min-width: 28px;
-  background: rgba(255, 255, 255, 0.15);
-  border: 1.5px solid rgba(255, 220, 230, 0.6);
+  background: rgba(255, 255, 255, 0.18);
+  border: 1.5px solid rgba(255, 220, 240, 0.65);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -68,18 +68,20 @@
 }
 
 .countryName {
-  color: rgba(255, 255, 255, 0.72);
+  color: rgba(255, 255, 255, 0.75);
   font-size: 0.58em;
   letter-spacing: 0.18em;
   font-weight: 400;
+  font-family: 'Gaegu', sans-serif;
 }
 
 .orgName {
   color: #fff;
-  font-size: 0.72em;
+  font-size: 0.75em;
   font-weight: 700;
   letter-spacing: 0.06em;
   white-space: nowrap;
+  font-family: 'Gaegu', sans-serif;
 }
 
 .headerRight {
@@ -94,27 +96,28 @@
   font-size: 0.95em;
   font-weight: 800;
   letter-spacing: 0.14em;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.22);
+  font-family: 'Gaegu', sans-serif;
 }
 
 .cardTitleEn {
-  color: rgba(255, 255, 255, 0.55);
+  color: rgba(255, 255, 255, 0.58);
   font-size: 0.5em;
   letter-spacing: 0.1em;
   font-weight: 300;
 }
 
-/* ── 포인트 스트라이프 (로즈골드) ── */
+/* ── 포인트 스트라이프 (핑크-라벤더) ── */
 .goldStripe {
-  height: 3.5px;
+  height: 4px;
   background: linear-gradient(
     90deg,
     #C47090 0%,
     #F0A8BC 20%,
-    #FFD0DC 40%,
+    #DFB0E8 40%,
     #F0A8BC 60%,
-    #D4809A 80%,
-    #FFD0DC 90%,
+    #C090C8 80%,
+    #F0A8BC 90%,
     #C47090 100%
   );
   flex-shrink: 0;
@@ -146,32 +149,34 @@
 .infoRow {
   display: flex;
   align-items: baseline;
-  gap: 4%;
+  gap: 3%;
   line-height: 1;
 }
 
 .infoLabel {
   flex-shrink: 0;
-  font-size: 0.6em;
-  color: #8B4D5C;
-  letter-spacing: 0.02em;
-  width: 5.5em;
-  text-align: justify;
-  text-align-last: justify;
+  font-size: 0.62em;
+  color: #9050A0;
+  letter-spacing: 0.01em;
+  width: 6em;
+  font-family: 'Gaegu', sans-serif;
+  font-weight: 700;
 }
 
 .infoValue {
-  color: #3D1A24;
-  font-size: 0.75em;
-  font-weight: 500;
-  letter-spacing: 0.03em;
+  color: #3D1A2C;
+  font-size: 0.78em;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  font-family: 'Gaegu', sans-serif;
 }
 
 .infoValueName {
-  font-size: 1.05em;
+  font-size: 1.08em;
   font-weight: 800;
-  letter-spacing: 0.05em;
-  color: #2D0D18;
+  letter-spacing: 0.04em;
+  color: #2D0D20;
+  font-family: 'Gaegu', sans-serif;
 }
 
 /* ── 오른쪽: 세로형 증명사진 ── */
@@ -187,12 +192,10 @@
 .photoFrame {
   width: 100%;
   aspect-ratio: 1 / 1;
-  border: 1.5px solid #C4607A;
-  border-radius: 3px;
+  border: 2px solid #C060A0;
+  border-radius: 10px;
   overflow: hidden;
-  background: #F5C8D4;
-  /* position:relative + absolute 자식으로 확실하게 채움
-     (flex+height:100% 조합은 aspect-ratio 컨테이너에서 불안정) */
+  background: #F5C8DE;
   position: relative;
 }
 
@@ -210,16 +213,16 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(160deg, #FCDDE6 0%, #F5C8D4 100%);
+  background: linear-gradient(160deg, #FCDDE8 0%, #F0C8E8 100%);
 }
 
 .speciesChip {
   font-size: 0.52em;
-  color: #C4607A;
+  color: #C060A0;
   font-weight: 700;
   letter-spacing: 0.06em;
   margin: 0;
-  border: 1px solid rgba(196, 96, 122, 0.5);
+  border: 1px solid rgba(192, 96, 160, 0.5);
   border-radius: 2px;
   padding: 1px 5px;
   white-space: nowrap;
@@ -229,13 +232,14 @@
    하단 구분선
    ================================================================ */
 .footerDivider {
-  height: 1px;
+  height: 1.5px;
   margin: 0 4%;
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(196, 96, 122, 0.3) 15%,
-    rgba(196, 96, 122, 0.3) 85%,
+    rgba(192, 100, 180, 0.3) 15%,
+    rgba(196, 96, 122, 0.3) 50%,
+    rgba(192, 100, 180, 0.3) 85%,
     transparent
   );
   position: relative;
@@ -269,27 +273,28 @@
 }
 
 .footerLabel {
-  font-size: 0.55em;
-  color: #8B4D5C;
-  letter-spacing: 0.02em;
-  width: 5.5em;
-  text-align: justify;
-  text-align-last: justify;
+  font-size: 0.57em;
+  color: #9050A0;
+  letter-spacing: 0.01em;
+  width: 6em;
   flex-shrink: 0;
+  font-family: 'Gaegu', sans-serif;
+  font-weight: 700;
 }
 
 .footerValue {
-  font-size: 0.65em;
-  color: #3D1A24;
-  font-weight: 500;
-  letter-spacing: 0.03em;
+  font-size: 0.68em;
+  color: #3D1A2C;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  font-family: 'Gaegu', sans-serif;
 }
 
 .footerValueMono {
-  font-family: 'Courier New', 'Consolas', monospace;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  color: #2D0D18;
+  font-family: 'Gaegu', sans-serif;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: #2D0D20;
 }
 
 /* ── 홀로그램 자리 → 발바닥 장식 ── */
@@ -298,26 +303,27 @@
   flex-direction: column;
   align-items: center;
   gap: 3px;
-  padding: 4px 10px;
-  border: 1px solid rgba(196, 96, 122, 0.2);
-  border-radius: 5px;
+  padding: 5px 12px;
+  border: 1.5px solid rgba(192, 100, 180, 0.25);
+  border-radius: 10px;
   background: linear-gradient(
     135deg,
-    rgba(255, 255, 255, 0.7) 0%,
-    rgba(255, 220, 232, 0.4) 50%,
-    rgba(255, 255, 255, 0.7) 100%
+    rgba(255, 255, 255, 0.75) 0%,
+    rgba(240, 210, 255, 0.45) 50%,
+    rgba(255, 230, 245, 0.6) 100%
   );
 }
 
 .hologramPaws {
   display: flex;
-  align-items: center;
-  gap: 2px;
+  align-items: flex-end;
+  gap: 3px;
 }
 
 .hologramLabel {
   font-size: 0.48em;
-  color: rgba(196, 96, 122, 0.65);
+  color: rgba(180, 80, 160, 0.7);
   letter-spacing: 0.12em;
-  font-weight: 600;
+  font-weight: 700;
+  font-family: 'Gaegu', sans-serif;
 }

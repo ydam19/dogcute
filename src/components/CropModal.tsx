@@ -20,9 +20,6 @@ export function CropModal({ imageSrc, onComplete, onCancel }: CropModalProps) {
 
   const onCropComplete = useCallback((_: Area, pixels: Area) => {
     setCroppedAreaPixels(pixels)
-    console.log('[CropModal] aspect 설정값:', CROP_ASPECT, '(4/5 =', (4/5).toFixed(4) + ')')
-    console.log('[CropModal] pixelCrop:', pixels.x, pixels.y, pixels.width, '×', pixels.height,
-      '→ 비율', (pixels.width / pixels.height).toFixed(4))
   }, [])
 
   async function handleComplete() {

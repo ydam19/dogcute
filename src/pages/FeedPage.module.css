@@ -1,0 +1,713 @@
+.page {
+  min-height: 100dvh;
+  background: linear-gradient(160deg, #fdf4f8 0%, #f8f0ff 100%);
+  display: flex;
+  flex-direction: column;
+  padding-bottom: env(safe-area-inset-bottom, 20px);
+  font-family: 'Gaegu', 'Apple SD Gothic Neo', sans-serif;
+}
+
+.header {
+  background: linear-gradient(135deg, #F9C8E0 0%, #EEC8FF 100%);
+  padding: 40px 20px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.backBtn {
+  background: none;
+  border: none;
+  color: #9040A0;
+  font-size: 0.88rem;
+  cursor: pointer;
+  padding: 0;
+  flex-shrink: 0;
+  font-family: 'Gaegu', 'Apple SD Gothic Neo', sans-serif;
+  font-weight: 700;
+  transition: transform 0.15s;
+}
+
+.backBtn:hover {
+  transform: translateX(-3px);
+}
+
+.title {
+  color: #7a2858;
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin: 0;
+  font-family: 'Gaegu', 'Apple SD Gothic Neo', sans-serif;
+}
+
+/* ── 카운트 ── */
+.count {
+  padding: 12px 16px 4px;
+  font-size: 0.82rem;
+  color: #b08090;
+  margin: 0;
+}
+
+/* ── 2열 그리드 ── */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  padding: 8px 16px 24px;
+}
+
+.card {
+  position: relative;
+  background: #fff;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(140, 45, 69, 0.1);
+}
+
+.cardImage {
+  width: 100%;
+  aspect-ratio: 9 / 16;
+  object-fit: cover;
+  display: block;
+  cursor: pointer;
+}
+
+.cardInfo {
+  padding: 8px 10px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  position: relative;
+  z-index: 1;
+}
+
+.cardInfoTop {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.petName {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #3D1A24;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cardTypeBadge {
+  font-size: 0.72rem;
+  color: #C4607A;
+  font-weight: 600;
+}
+
+/* ── 더블탭 하트 애니메이션 ── */
+@keyframes heartBurst {
+  0%   { transform: translate(-50%, -50%) scale(0);   opacity: 0.95; }
+  40%  { transform: translate(-50%, -50%) scale(1.35); opacity: 1;    }
+  70%  { transform: translate(-50%, -50%) scale(1.15); opacity: 0.85; }
+  100% { transform: translate(-50%, -50%) scale(1.05); opacity: 0;    }
+}
+
+/* 그리드 카드 위 */
+.heartBurst {
+  position: absolute;
+  top: 42%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  pointer-events: none;
+  z-index: 10;
+  animation: heartBurst 0.7s cubic-bezier(0.36, 0.07, 0.19, 0.97) forwards;
+  filter: drop-shadow(0 2px 8px rgba(196, 96, 122, 0.5));
+}
+
+/* 확대 보기 위 */
+.heartBurstExpand {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  pointer-events: none;
+  z-index: 10;
+  animation: heartBurst 0.75s cubic-bezier(0.36, 0.07, 0.19, 0.97) forwards;
+  filter: drop-shadow(0 4px 16px rgba(196, 96, 122, 0.6));
+}
+
+/* ── 좋아요 버튼 (그리드) ── */
+.likeBtn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  border: none;
+  padding: 2px 0;
+  cursor: pointer;
+  color: #b08090;
+  font-size: 0.8rem;
+  font-weight: 600;
+  font-family: 'Gaegu', 'Apple SD Gothic Neo', sans-serif;
+  transition: color 0.15s, transform 0.12s;
+}
+
+.likeBtn:active {
+  transform: scale(0.9);
+}
+
+.likeBtnActive {
+  color: #C4607A;
+}
+
+.likeCount {
+  line-height: 1;
+}
+
+/* ── 좋아요 버튼 (확대 보기 바) ── */
+.expandLikeBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #b08090;
+  font-size: 1rem;
+  font-weight: 700;
+  font-family: 'Gaegu', 'Apple SD Gothic Neo', sans-serif;
+  padding: 4px 0;
+  transition: color 0.15s, transform 0.12s;
+}
+
+.expandLikeBtn:active {
+  transform: scale(0.92);
+}
+
+.expandLikeBtnActive {
+  color: #C4607A;
+}
+
+.deleteBtn {
+  position: absolute;
+  top: 7px;
+  right: 7px;
+  width: 26px;
+  height: 26px;
+  background: rgba(0, 0, 0, 0.45);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  font-size: 0.7rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+/* ── 빈 상태 ── */
+.empty {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 40px 20px;
+}
+
+.emptyIcon {
+  font-size: 3.5rem;
+  opacity: 0.4;
+}
+
+.emptyText {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #7a2840;
+  margin: 0;
+}
+
+.emptySub {
+  font-size: 0.88rem;
+  color: #b08090;
+  margin: 0;
+}
+
+.makeBtn {
+  margin-top: 16px;
+  padding: 14px 28px;
+  background: linear-gradient(135deg, #8C2D55 0%, #C4507A 45%, #C080B8 100%);
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 18px;
+  cursor: pointer;
+  font-family: 'Gaegu', 'Apple SD Gothic Neo', sans-serif;
+  box-shadow: 0 4px 16px rgba(196, 80, 160, 0.28);
+  transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.18s;
+}
+
+.makeBtn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 24px rgba(196, 80, 160, 0.38);
+}
+
+.makeBtn:active {
+  transform: scale(0.97);
+  opacity: 0.9;
+}
+
+/* ── 확대 보기 모달 (전체화면, flex column) ── */
+.expandOverlay {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(160deg, #fdf4f8 0%, #f8f0ff 100%);
+  z-index: 400;
+  display: flex;
+  flex-direction: column;
+  animation: fadeIn 0.18s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0 }
+  to   { opacity: 1 }
+}
+
+.expandHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: calc(env(safe-area-inset-top, 12px) + 8px) 16px 10px;
+  background: linear-gradient(135deg, #F9C8E0 0%, #EEC8FF 100%);
+  flex-shrink: 0;
+}
+
+.expandClose {
+  background: none;
+  border: none;
+  color: #9040A0;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 4px 0;
+  font-family: 'Gaegu', 'Apple SD Gothic Neo', sans-serif;
+  width: 60px;
+}
+
+.expandTitle {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #7a2858;
+  font-family: 'Gaegu', 'Apple SD Gothic Neo', sans-serif;
+}
+
+.expandBody {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.expandImageWrap {
+  position: relative;
+  width: 100%;
+  background: #F9D0DC;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.expandImage {
+  max-width: 100%;
+  max-height: 58dvh;
+  width: auto;
+  height: auto;
+  display: block;
+}
+
+.expandLikeBar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px 4px;
+  border-bottom: 1px solid #f3d0da;
+  position: relative;
+  z-index: 1;
+}
+
+.commentsOff {
+  font-size: 0.78rem;
+  color: #b08090;
+}
+
+/* ── 댓글 섹션 ── */
+.commentsSection {
+  padding: 14px 16px 0;
+}
+
+.commentsTitle {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #7a2840;
+  margin: 0 0 12px;
+  font-family: 'Gaegu', 'Apple SD Gothic Neo', sans-serif;
+}
+
+.commentsEmpty {
+  font-size: 0.85rem;
+  color: #b08090;
+  margin: 0;
+  text-align: center;
+  padding: 16px 0;
+}
+
+.commentList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.commentItem {
+  background: #fff;
+  border-radius: 10px;
+  padding: 10px 12px;
+  box-shadow: 0 1px 4px rgba(140, 45, 69, 0.07);
+}
+
+.commentMeta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+
+.commentAuthor {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #C4607A;
+  font-family: 'Gaegu', 'Apple SD Gothic Neo', sans-serif;
+}
+
+.commentTime {
+  font-size: 0.72rem;
+  color: #b08090;
+  flex: 1;
+}
+
+.commentDeleteBtn {
+  background: none;
+  border: none;
+  color: #d4a0b0;
+  font-size: 0.65rem;
+  cursor: pointer;
+  padding: 2px 4px;
+  line-height: 1;
+}
+
+.commentContent {
+  font-size: 0.88rem;
+  color: #3D1A24;
+  margin: 0;
+  line-height: 1.5;
+  word-break: break-word;
+}
+
+.commentInputSpacer {
+  height: 100px;
+  flex-shrink: 0;
+}
+
+/* ── 댓글 입력 폼 (하단 sticky) ── */
+.commentForm {
+  position: sticky;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 8px 12px calc(8px + env(safe-area-inset-bottom, 0px));
+  background: #fff;
+  border-top: 1px solid #eac8f0;
+  flex-shrink: 0;
+  z-index: 10;
+  gap: 6px;
+}
+
+/* 사진 미리보기 행 */
+.commentPhotoPreviewRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.commentPhotoThumb {
+  width: 56px;
+  height: 56px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1.5px solid #DDA8E8;
+  flex-shrink: 0;
+}
+
+.commentPhotoRemoveBtn {
+  width: 22px;
+  height: 22px;
+  background: rgba(0,0,0,0.4);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  font-size: 0.65rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* 닉네임 + 내용 + 📷 + 게시 가로 행 */
+.commentInputRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.authorInput {
+  width: 68px;
+  padding: 8px 8px;
+  border: 1.5px solid #DDA8E8;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  font-family: 'Gaegu', 'Apple SD Gothic Neo', sans-serif;
+  color: #3D1A2C;
+  background: #fff;
+  flex-shrink: 0;
+}
+
+.authorInput:focus { outline: none; border-color: #C040A0; }
+
+.contentInput {
+  flex: 1;
+  padding: 8px 10px;
+  border: 1.5px solid #DDA8E8;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  font-family: 'Gaegu', 'Apple SD Gothic Neo', sans-serif;
+  color: #3D1A2C;
+  background: #fff;
+  min-width: 0;
+}
+
+.contentInput:focus { outline: none; border-color: #C040A0; }
+
+/* 📷 사진 첨부 버튼 */
+.commentPhotoBtn {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid #DDA8E8;
+  border-radius: 8px;
+  background: #FDF0FF;
+  cursor: pointer;
+  font-size: 1rem;
+  flex-shrink: 0;
+  transition: background 0.15s, transform 0.15s;
+  user-select: none;
+}
+
+.commentPhotoBtn:hover {
+  background: #F0D0FF;
+  transform: scale(1.08);
+}
+
+.commentPhotoBtnLoading {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.photoSpinner {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(192, 64, 160, 0.25);
+  border-top-color: #C040A0;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.submitCommentBtn {
+  padding: 8px 12px;
+  background: linear-gradient(135deg, #C040A0, #A060C8);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  font-family: 'Gaegu', 'Apple SD Gothic Neo', sans-serif;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: opacity 0.15s, transform 0.15s;
+}
+
+.submitCommentBtn:not(:disabled):hover {
+  transform: scale(1.05);
+}
+
+.submitCommentBtn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.profanityError {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #C040A0;
+  background: #FCE0F4;
+  border-radius: 6px;
+  padding: 5px 10px;
+  text-align: center;
+}
+
+/* ── 댓글 첨부 사진 (목록 내) ── */
+.commentImageBtn {
+  display: block;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  margin-top: 6px;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: opacity 0.15s, transform 0.15s;
+}
+
+.commentImageBtn:hover {
+  opacity: 0.88;
+  transform: scale(1.01);
+}
+
+.commentImage {
+  display: block;
+  max-width: 100%;
+  max-height: 200px;
+  width: auto;
+  height: auto;
+  border-radius: 8px;
+  object-fit: cover;
+  border: 1px solid rgba(192, 64, 160, 0.15);
+}
+
+/* ── 댓글 사진 라이트박스 ── */
+.lightboxOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(20, 0, 30, 0.88);
+  z-index: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: fadeIn 0.18s ease;
+  backdrop-filter: blur(4px);
+}
+
+.lightboxImg {
+  max-width: 100%;
+  max-height: 85dvh;
+  width: auto;
+  height: auto;
+  border-radius: 14px;
+  box-shadow: 0 12px 48px rgba(0,0,0,0.5);
+  object-fit: contain;
+}
+
+.lightboxClose {
+  position: absolute;
+  top: calc(env(safe-area-inset-top, 12px) + 10px);
+  right: 16px;
+  width: 36px;
+  height: 36px;
+  background: rgba(255,255,255,0.15);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  font-size: 0.9rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+}
+
+/* ── 하트 버스트 (확대 보기) ── */
+
+/* ── 삭제 확인 모달 ── */
+.confirmOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  backdrop-filter: blur(2px);
+}
+
+.confirmBox {
+  background: #fff;
+  border-radius: 18px;
+  padding: 28px 24px 20px;
+  width: 100%;
+  max-width: 320px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+}
+
+.confirmText {
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #3D1A24;
+  margin: 0 0 20px;
+}
+
+.confirmBtns {
+  display: flex;
+  gap: 10px;
+}
+
+.confirmCancel {
+  flex: 1;
+  padding: 13px;
+  background: #f3f4f6;
+  border: none;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #6b7280;
+  cursor: pointer;
+  font-family: 'Gaegu', 'Apple SD Gothic Neo', sans-serif;
+}
+
+.confirmDelete {
+  flex: 1;
+  padding: 13px;
+  background: #C4607A;
+  border: none;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #fff;
+  cursor: pointer;
+  font-family: 'Gaegu', 'Apple SD Gothic Neo', sans-serif;
+}
+
+.confirmDelete:active {
+  opacity: 0.85;
+}

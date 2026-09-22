@@ -1,0 +1,196 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 200;
+  display: flex;
+  align-items: flex-end;
+  backdrop-filter: blur(3px);
+  animation: fadeIn 0.18s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0 }
+  to   { opacity: 1 }
+}
+
+.sheet {
+  width: 100%;
+  background: #fff;
+  border-radius: 20px 20px 0 0;
+  padding: 12px 20px calc(20px + env(safe-area-inset-bottom, 0px));
+  animation: slideUp 0.22s cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+@keyframes slideUp {
+  from { transform: translateY(100%) }
+  to   { transform: translateY(0) }
+}
+
+.handle {
+  width: 36px;
+  height: 4px;
+  background: #e5e7eb;
+  border-radius: 2px;
+  margin: 0 auto 20px;
+}
+
+.title {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #111827;
+  margin: 0 0 4px;
+  text-align: center;
+  font-family: 'Gaegu', 'Apple SD Gothic Neo', sans-serif;
+}
+
+.desc {
+  font-size: 0.82rem;
+  color: #6b7280;
+  text-align: center;
+  margin: 0 0 20px;
+}
+
+/* ── 댓글 허용 토글 행 ── */
+.toggleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 4px 16px;
+  border-bottom: 1px solid #f3d0da;
+  margin-bottom: 16px;
+}
+
+.toggleLabel {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.toggleIcon {
+  font-size: 1.3rem;
+}
+
+.toggleTitle {
+  display: block;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.toggleSub {
+  display: block;
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin-top: 1px;
+}
+
+.toggle {
+  position: relative;
+  width: 46px;
+  height: 26px;
+  border-radius: 13px;
+  background: #e5e7eb;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s;
+  flex-shrink: 0;
+}
+
+.toggleOn {
+  background: #C4607A;
+}
+
+.toggleThumb {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.18);
+  transition: left 0.2s;
+}
+
+.toggleOn .toggleThumb {
+  left: 23px;
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.option {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  background: #f9fafb;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 14px;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.12s, border-color 0.12s;
+}
+
+.option:active {
+  background: #FCE8EF;
+  border-color: #C4607A;
+}
+
+.optionIcon {
+  width: 44px;
+  height: 44px;
+  background: #FCE8EF;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #C4607A;
+  flex-shrink: 0;
+}
+
+.optionText {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.optionLabel {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.optionSub {
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+.option svg:last-child {
+  color: #9ca3af;
+  flex-shrink: 0;
+}
+
+.cancelBtn {
+  width: 100%;
+  padding: 14px;
+  background: none;
+  border: none;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #6b7280;
+  cursor: pointer;
+  border-radius: 12px;
+  transition: background 0.12s;
+}
+
+.cancelBtn:active {
+  background: #f3f4f6;
+}

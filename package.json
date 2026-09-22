@@ -9,6 +9,7 @@
   },
   "type": "module",
   "dependencies": {
+    "@apps-in-toss/web-framework": "^3.5.0",
     "heic2any": "^0.0.4",
     "html2canvas": "^1.4.1",
     "react": "^19.3.0",

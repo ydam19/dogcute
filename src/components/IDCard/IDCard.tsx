@@ -46,11 +46,11 @@ export function IDCard({ data }: IDCardProps) {
         <div className={styles.body}>
           {/* 왼쪽: 인적사항 */}
           <div className={styles.infoCol}>
-            <InfoRow label="성　　명" value={data.name} isName />
-            <InfoRow label="성　　별" value={GENDER_LABEL[data.gender]} />
-            <InfoRow label="탄　생　일" value={data.birthdayUnknown ? '비공개' : formatKoreanDate(data.birthday)} />
-            <InfoRow label="특 이 사 항" value={data.personality || '—'} />
-            <InfoRow label="종" value={SPECIES_LABEL[data.species]} />
+            <InfoRow label="🐾 성명" value={data.name} isName />
+            <InfoRow label="💜 성별" value={GENDER_LABEL[data.gender]} />
+            <InfoRow label="🎂 탄생일" value={data.birthdayUnknown ? '비공개' : formatKoreanDate(data.birthday)} />
+            <InfoRow label="✨ 특이사항" value={data.personality || '—'} />
+            <InfoRow label="🏷️ 종" value={SPECIES_LABEL[data.species]} />
           </div>
 
           {/* 오른쪽: 세로형 증명사진 */}
@@ -80,17 +80,17 @@ export function IDCard({ data }: IDCardProps) {
         {/* ─── 푸터 ─── */}
         <div className={styles.footer}>
           <div className={styles.footerInfo}>
-            <FooterRow label="유 효 기 간" value="평　생" />
-            <FooterRow label="발 급 기 관" value={ISSUER_SHORT[data.species]} />
-            <FooterRow label="발 급 번 호" value={data.issueNumber} mono />
+            <FooterRow label="♾️ 유효기간" value="평생" />
+            <FooterRow label="🏛️ 발급기관" value={ISSUER_SHORT[data.species]} />
+            <FooterRow label="🔢 발급번호" value={data.issueNumber} mono />
           </div>
 
           {/* 홀로그램 자리 → 발바닥 장식 마크 */}
           <div className={styles.hologramZone}>
             <div className={styles.hologramPaws}>
-              <PawMark species={data.species} size={28} color="#C4607A" opacity={0.22} />
-              <PawMark species={data.species} size={20} color="#C4607A" opacity={0.14} />
-              <PawMark species={data.species} size={28} color="#C4607A" opacity={0.22} />
+              <PawMark species={data.species} size={13} color="#C060A0" opacity={0.20} />
+              <PawMark species={data.species} size={46} color="#6A1090" opacity={0.90} />
+              <PawMark species={data.species} size={13} color="#C060A0" opacity={0.20} />
             </div>
             <span className={styles.hologramLabel}>{ISSUER_SHORT[data.species]}</span>
           </div>

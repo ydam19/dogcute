@@ -5,31 +5,31 @@
 .card {
   width: 100%;
   background: #fff;
-  border-radius: 28px;
+  border-radius: 32px;
   overflow: hidden;
   box-shadow:
-    0 16px 48px rgba(196, 96, 122, 0.22),
-    0 4px 14px rgba(196, 96, 122, 0.12),
-    inset 0 1px 0 rgba(255, 255, 255, 0.9);
-  border: 1px solid rgba(196, 96, 122, 0.14);
+    0 18px 52px rgba(196, 80, 160, 0.24),
+    0 5px 16px rgba(180, 100, 200, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95);
+  border: 1.5px solid rgba(210, 120, 200, 0.18);
 }
 
 /* ── 사진 영역 (폴라로이드 여백) ── */
 .photoWrap {
   padding: 20px 20px 10px;
-  background: #fff;
+  background: linear-gradient(180deg, #fff 70%, #FFF0FA 100%);
 }
 
 .photoFrame {
   width: 100%;
   aspect-ratio: 1 / 1;
-  border-radius: 18px;
+  border-radius: 22px;
   overflow: hidden;
-  background: #F5C8D4;
+  background: #F5C8DE;
   position: relative;
   box-shadow:
-    0 4px 16px rgba(196, 96, 122, 0.18),
-    0 1px 4px rgba(196, 96, 122, 0.1);
+    0 6px 20px rgba(196, 80, 160, 0.2),
+    0 2px 6px rgba(180, 100, 200, 0.12);
 }
 
 .photo {
@@ -46,19 +46,20 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(160deg, #FCDDE6 0%, #F5C8D4 100%);
+  background: linear-gradient(160deg, #FCDDE8 0%, #EEC8F0 100%);
 }
 
 /* ── 텍스트 영역 ── */
 .textArea {
   padding: 14px 24px 6px;
+  background: linear-gradient(180deg, #FFF0FA 0%, #F8F0FF 100%);
 }
 
 .name {
   font-family: 'Gaegu', 'Apple SD Gothic Neo', sans-serif;
-  font-size: 2.2rem;
+  font-size: 2.3rem;
   font-weight: 700;
-  color: #3D1A24;
+  color: #3D1A2C;
   margin: 0 0 10px;
   line-height: 1.15;
   letter-spacing: 0.02em;
@@ -74,13 +75,14 @@
 
 .tag {
   font-family: 'Gaegu', 'Apple SD Gothic Neo', sans-serif;
-  font-size: 0.97rem;
+  font-size: 1rem;
   font-weight: 700;
-  color: #C4607A;
-  background: #FCE8EF;
-  border-radius: 20px;
-  padding: 4px 13px;
+  color: #B040A0;
+  background: linear-gradient(135deg, #FCE0F4 0%, #EED8FF 100%);
+  border-radius: 22px;
+  padding: 4px 14px;
   letter-spacing: 0.01em;
+  border: 1px solid rgba(190, 100, 200, 0.2);
 }
 
 /* 종 + 성별 배지 */
@@ -93,14 +95,14 @@
 
 .metaItem {
   font-family: 'Gaegu', 'Apple SD Gothic Neo', sans-serif;
-  font-size: 1rem;
+  font-size: 1.05rem;
   font-weight: 700;
-  color: #8B4D5C;
+  color: #905080;
 }
 
 .metaDot {
-  color: #e8b4c0;
-  font-size: 1rem;
+  color: #DDA0C8;
+  font-size: 1.1rem;
 }
 
 /* ── 하단 발바닥 장식 ── */
@@ -110,4 +112,5 @@
   justify-content: center;
   gap: 5px;
   padding: 10px 0 18px;
+  background: linear-gradient(180deg, #F8F0FF 0%, #fff 100%);
 }

@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import heic2any from 'heic2any'
 import { PetFormData, Gender, Species } from '../types/pet'
 import { generateIssueNumber, getNextSequence } from '../utils/generateIssueNumber'
@@ -27,6 +27,7 @@ export function InputForm() {
   const [form, setForm] = useState<PetFormData>(initialForm)
   const [errors, setErrors] = useState<Partial<Record<keyof PetFormData, string>>>({})
   const [pendingPhoto, setPendingPhoto] = useState<string | null>(null)
+  const [photoError, setPhotoError] = useState<string | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   function handleChange<K extends keyof PetFormData>(key: K, value: PetFormData[K]) {
@@ -37,12 +38,7 @@ export function InputForm() {
   function handleUnknownToggle(field: 'birthdayUnknown' | 'firstMetDateUnknown') {
     const dateField = field === 'birthdayUnknown' ? 'birthday' : 'firstMetDate'
     const next = !form[field]
-    setForm(prev => ({
-      ...prev,
-      [field]: next,
-      // 모름 체크 시 날짜 값 초기화
-      ...(next ? { [dateField]: '' } : {}),
-    }))
+    setForm(prev => ({ ...prev, [field]: next }))
     setErrors(prev => ({ ...prev, [dateField]: undefined }))
   }
 
@@ -63,7 +59,9 @@ export function InputForm() {
         const converted = await heic2any({ blob: file, toType: 'image/jpeg', quality: 0.92 })
         blob = Array.isArray(converted) ? converted[0] : converted
       } catch {
-        blob = file
+        setPhotoError('사진 변환에 실패했습니다. JPG/PNG 파일을 사용해주세요.')
+        setTimeout(() => setPhotoError(null), 3500)
+        return
       }
     }
 
@@ -119,6 +117,7 @@ export function InputForm() {
       <header className={styles.header}>
         <h1 className={styles.title}>우리집 강아지/고양이 귀여워</h1>
         <p className={styles.subtitle}>소중한 가족의 신분증을 만들어보세요</p>
+        <Link to="/feed" className={styles.feedLink}>🐾 피드 보기</Link>
       </header>
 
       <form className={styles.form} onSubmit={handleSubmit}>
@@ -284,6 +283,10 @@ export function InputForm() {
           신분증 만들기
         </button>
       </form>
+
+      {photoError && (
+        <div className={styles.errorToast}>{photoError}</div>
+      )}
 
       {pendingPhoto && (
         <CropModal

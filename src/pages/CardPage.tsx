@@ -1,11 +1,18 @@
-import { useRef, useState } from 'react'
+import { useRef, useState, useEffect } from 'react'
+import { flushSync } from 'react-dom'
 import { useNavigate } from 'react-router-dom'
 import { usePet } from '../context/PetContext'
 import { IDCard } from '../components/IDCard/IDCard'
 import { ProfileCard } from '../components/ProfileCard/ProfileCard'
 import { RatioSheet } from '../components/RatioSheet'
-import { saveCardAsImage, SaveRatio } from '../utils/saveCardAsImage'
+import { PublishSheet } from '../components/PublishSheet'
+import { saveCardAsImage, buildCardCanvas, SaveRatio } from '../utils/saveCardAsImage'
+import { addPost } from '../utils/feedStorage'
+import { FeedPost } from '../types/pet'
+import { loadFullScreenAd, showFullScreenAd } from '@apps-in-toss/web-framework'
 import styles from './CardPage.module.css'
+
+const AD_GROUP_ID = 'ait-ad-test-rewarded-id'
 
 type CardType = 'id' | 'profile'
 
@@ -16,24 +23,140 @@ export function CardPage() {
   const [sheetOpen, setSheetOpen] = useState(false)
   const [saving, setSaving] = useState(false)
   const [cardType, setCardType] = useState<CardType>('id')
+  const [errorMsg, setErrorMsg] = useState<string | null>(null)
+  const [publishSheetOpen, setPublishSheetOpen] = useState(false)
+  const [publishing, setPublishing] = useState(false)
+  const [publishSuccess, setPublishSuccess] = useState(false)
+  const adReadyRef = useRef(false)
+  const rewardEarnedRef = useRef(false)
+  const pendingRatioRef = useRef<SaveRatio | null>(null)
+  const unloadAdRef = useRef<(() => void) | null>(null)
+
+  useEffect(() => {
+    if (!loadFullScreenAd.isSupported()) return
+    function loadAd() {
+      adReadyRef.current = false
+      unloadAdRef.current?.()
+      unloadAdRef.current = loadFullScreenAd({
+        options: { adGroupId: AD_GROUP_ID },
+        onEvent(event) {
+          if (event.type === 'loaded') adReadyRef.current = true
+        },
+        onError(err) {
+          console.warn('광고 로드 실패:', err)
+          adReadyRef.current = false
+        },
+      })
+    }
+    loadAd()
+    return () => { unloadAdRef.current?.() }
+  }, [])
 
   if (!card) {
     navigate('/', { replace: true })
     return null
   }
 
-  async function handleRatioSelect(ratio: SaveRatio) {
-    setSheetOpen(false)
+  async function handlePublishSelect(type: 'id' | 'profile', commentsEnabled: boolean) {
+    setPublishSheetOpen(false)
+    setPublishing(true)
+    try {
+      // 선택한 카드 타입으로 전환 후 즉시 DOM 반영
+      flushSync(() => setCardType(type))
+
+      if (!cardRef.current) throw new Error('카드 요소 없음')
+      // story(9:16) 완성 이미지(배경+발바닥+카드+워터마크)를 그대로 피드에 저장
+      const storyCanvas = await buildCardCanvas(cardRef.current, 'story')
+      // 파일 크기 절약: 640×1137로 리사이즈 후 JPEG 저장
+      const thumbW = 640
+      const thumbH = Math.round(storyCanvas.height * (thumbW / storyCanvas.width))
+      const thumb = document.createElement('canvas')
+      thumb.width = thumbW
+      thumb.height = thumbH
+      thumb.getContext('2d')!.drawImage(storyCanvas, 0, 0, thumbW, thumbH)
+      const imageDataUrl = thumb.toDataURL('image/jpeg', 0.82)
+
+      const post: FeedPost = {
+        id: `${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+        cardType: type,
+        imageDataUrl,
+        petName: card!.name,
+        species: card!.species,
+        publishedAt: Date.now(),
+        likes: 0,
+        commentsEnabled,
+      }
+      addPost(post)
+      setPublishSuccess(true)
+      setTimeout(() => setPublishSuccess(false), 2500)
+    } catch (err) {
+      console.error('게시 실패:', err)
+      setErrorMsg('게시에 실패했습니다. 다시 시도해주세요.')
+      setTimeout(() => setErrorMsg(null), 3000)
+    } finally {
+      setPublishing(false)
+    }
+  }
+
+  async function doSave(ratio: SaveRatio) {
     if (!cardRef.current) return
     setSaving(true)
     try {
       await saveCardAsImage(cardRef.current, card!.name, ratio)
     } catch (err) {
       console.error('이미지 저장 실패:', err)
-      alert('이미지 저장에 실패했습니다. 다시 시도해주세요.')
+      setErrorMsg('이미지 저장에 실패했습니다. 다시 시도해주세요.')
+      setTimeout(() => setErrorMsg(null), 3000)
     } finally {
       setSaving(false)
     }
+  }
+
+  function reloadAd() {
+    if (!loadFullScreenAd.isSupported()) return
+    adReadyRef.current = false
+    unloadAdRef.current?.()
+    unloadAdRef.current = loadFullScreenAd({
+      options: { adGroupId: AD_GROUP_ID },
+      onEvent(event) {
+        if (event.type === 'loaded') adReadyRef.current = true
+      },
+      onError(err) { console.warn('광고 재로드 실패:', err) },
+    })
+  }
+
+  function handleRatioSelect(ratio: SaveRatio) {
+    setSheetOpen(false)
+    const adSupported = loadFullScreenAd.isSupported()
+    if (!adSupported || !adReadyRef.current) {
+      doSave(ratio)
+      return
+    }
+    rewardEarnedRef.current = false
+    pendingRatioRef.current = ratio
+    showFullScreenAd({
+      options: { adGroupId: AD_GROUP_ID },
+      onEvent(event) {
+        if (event.type === 'userEarnedReward') {
+          rewardEarnedRef.current = true
+          doSave(pendingRatioRef.current!)
+        } else if (event.type === 'dismissed') {
+          if (!rewardEarnedRef.current) {
+            setErrorMsg('광고를 끝까지 봐야 저장됩니다.')
+            setTimeout(() => setErrorMsg(null), 3000)
+          }
+          reloadAd()
+        } else if (event.type === 'failedToShow') {
+          doSave(pendingRatioRef.current!)
+          reloadAd()
+        }
+      },
+      onError(err) {
+        console.warn('광고 표시 실패:', err)
+        doSave(pendingRatioRef.current!)
+        reloadAd()
+      },
+    })
   }
 
   return (
@@ -76,7 +199,7 @@ export function CardPage() {
         <button
           className={`${styles.saveBtn} ${saving ? styles.saveBtnLoading : ''}`}
           onClick={() => setSheetOpen(true)}
-          disabled={saving}
+          disabled={saving || publishing}
         >
           {saving ? (
             <>
@@ -90,9 +213,31 @@ export function CardPage() {
             </>
           )}
         </button>
-        <button className={styles.newBtn} onClick={() => navigate('/')}>
-          새로 만들기
+        <button
+          className={`${styles.publishBtn} ${publishing ? styles.saveBtnLoading : ''}`}
+          onClick={() => setPublishSheetOpen(true)}
+          disabled={saving || publishing}
+        >
+          {publishing ? (
+            <>
+              <span className={styles.spinnerDark} />
+              게시 중...
+            </>
+          ) : (
+            <>
+              <PublishIcon />
+              게시하기
+            </>
+          )}
         </button>
+        <div className={styles.bottomRow}>
+          <button className={styles.newBtn} onClick={() => navigate('/')}>
+            새로 만들기
+          </button>
+          <button className={styles.feedBtn} onClick={() => navigate('/feed')}>
+            피드 보기
+          </button>
+        </div>
       </div>
 
       {saving && (
@@ -101,12 +246,41 @@ export function CardPage() {
         </div>
       )}
 
+      {errorMsg && (
+        <div className={styles.errorToast}>{errorMsg}</div>
+      )}
+
+      {publishSuccess && (
+        <div className={styles.successToast}>
+          🐾 피드에 게시됐어요!&nbsp;
+          <button className={styles.toastLink} onClick={() => navigate('/feed')}>
+            피드 보기 →
+          </button>
+        </div>
+      )}
+
+      <PublishSheet
+        open={publishSheetOpen}
+        onSelect={handlePublishSelect}
+        onClose={() => setPublishSheetOpen(false)}
+      />
+
       <RatioSheet
         open={sheetOpen}
         onSelect={handleRatioSelect}
         onClose={() => setSheetOpen(false)}
       />
     </div>
+  )
+}
+
+function PublishIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 19V5" />
+      <polyline points="5 12 12 5 19 12" />
+      <line x1="5" y1="21" x2="19" y2="21" />
+    </svg>
   )
 }
 

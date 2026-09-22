@@ -19,6 +19,26 @@ export interface PetIDCard extends PetFormData {
   sequenceNumber: number     // 가입 순번
 }
 
+export interface FeedPost {
+  id: string
+  cardType: 'id' | 'profile'
+  imageDataUrl: string   // JPEG base64
+  petName: string
+  species: Species
+  publishedAt: number    // Date.now()
+  likes: number          // 좋아요 수
+  commentsEnabled: boolean
+}
+
+export interface Comment {
+  id: string
+  postId: string
+  author: string         // 닉네임
+  content: string
+  imageUrl?: string      // 첨부 사진 (JPEG base64, 선택)
+  createdAt: number      // Date.now()
+}
+
 // 발급번호 생성 규칙 (우선순위):
 //   1. 탄생일 (birthdayUnknown = false)
 //   2. 처음 만난 날 (firstMetDateUnknown = false)
