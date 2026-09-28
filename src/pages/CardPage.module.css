@@ -302,14 +302,29 @@
   transform: translateX(-50%);
   background: #8C2D55;
   color: #fff;
-  padding: 12px 24px;
-  border-radius: 28px;
+  padding: 12px 20px;
+  border-radius: 20px;
   font-size: 0.95rem;
   font-weight: 700;
   white-space: nowrap;
   z-index: 200;
   box-shadow: 0 6px 20px rgba(0,0,0,0.22);
   font-family: 'Gaegu', 'Apple SD Gothic Neo', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.errorDetail {
+  font-size: 0.72rem;
+  font-weight: 400;
+  opacity: 0.85;
+  white-space: normal;
+  max-width: 72vw;
+  text-align: center;
+  word-break: break-all;
+  font-family: monospace;
 }
 
 .savingOverlay p {

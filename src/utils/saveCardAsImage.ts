@@ -1,4 +1,5 @@
 import html2canvas from 'html2canvas'
+import { File as TossFile } from '@apps-in-toss/web-framework'
 
 export type SaveRatio = 'feed' | 'story'
 
@@ -30,7 +31,8 @@ export async function buildCardCanvas(
 
   await document.fonts.load('700 28px "Gaegu"').catch(() => {})
 
-  const scale = 3
+  console.log('[buildCardCanvas] html2canvas 시작')
+  const scale = 2
   const raw = await html2canvas(cardElement, {
     scale,
     useCORS: true,
@@ -38,6 +40,7 @@ export async function buildCardCanvas(
     backgroundColor: null,
     logging: false,
   })
+  console.log(`[buildCardCanvas] html2canvas 완료 — raw: ${raw.width}x${raw.height}`)
 
   const out = document.createElement('canvas')
   out.width = OUT_W
@@ -93,13 +96,36 @@ export async function saveCardAsImage(
   const cfg = RATIO_CONFIG[ratio]
   if (!cfg) throw new Error(`saveCardAsImage: 알 수 없는 ratio 값 "${ratio}"`)
 
+  console.log('[saveCardAsImage] 시작 — ratio:', ratio)
+
   const out = await buildCardCanvas(cardElement, ratio)
+  console.log(`[saveCardAsImage] buildCardCanvas 완료 — output: ${out.width}x${out.height}`)
 
   const safeName = petName.replace(/[^\w가-힣]/g, '_') || 'pet'
-  const link = document.createElement('a')
-  link.download = `${safeName}_${cfg.suffix}.png`
-  link.href = out.toDataURL('image/png')
-  link.click()
+
+  if (TossFile.saveBase64.isSupported()) {
+    const fileName = `${safeName}_${cfg.suffix}.jpg`
+    const dataUrl = out.toDataURL('image/jpeg', 0.85)
+    const base64 = dataUrl.replace(/^data:image\/jpeg;base64,/, '')
+    console.log(`[saveCardAsImage] toDataURL(jpeg/85%) 완료 — base64 길이: ${base64.length}`)
+
+    try {
+      await TossFile.saveBase64({ data: base64, fileName, mimeType: 'image/jpeg' })
+      console.log('[saveCardAsImage] File.saveBase64 완료 — 갤러리 저장 성공')
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err)
+      console.error('[saveCardAsImage] File.saveBase64 실패:', msg, err)
+      throw err
+    }
+  } else {
+    // 브라우저 폴백: 다운로드 링크 클릭
+    const fileName = `${safeName}_${cfg.suffix}.jpg`
+    const link = document.createElement('a')
+    link.download = fileName
+    link.href = out.toDataURL('image/jpeg', 0.85)
+    link.click()
+    console.log('[saveCardAsImage] 브라우저 다운로드 트리거 완료')
+  }
 }
 
 /**

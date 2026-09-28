@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react'
 import { PetIDCard } from '../../types/pet'
 import { formatKoreanDate } from '../../utils/formatDate'
 import { PawMark } from './PawMark'
@@ -14,6 +15,16 @@ const ISSUER_SHORT = { dog: '멍협회', cat: '냥협회' }
 const ISSUER_FULL = { dog: '대한민국 멍협회', cat: '대한민국 냥협회' }
 
 export function IDCard({ data }: IDCardProps) {
+  const photoFrameRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (!photoFrameRef.current) return
+    const { width, height } = photoFrameRef.current.getBoundingClientRect()
+    console.log(
+      `[IDCard] photoFrame — width: ${width.toFixed(1)}px, height: ${height.toFixed(1)}px, ratio: ${(width / height).toFixed(3)} (1:1이면 1.000)`
+    )
+  }, [])
+
   return (
     // 비율 유지 래퍼: 가로:세로 = 856:540 ≈ 1.585:1 (실물 카드 비율)
     <div className={styles.cardRatio}>
@@ -55,7 +66,7 @@ export function IDCard({ data }: IDCardProps) {
 
           {/* 오른쪽: 세로형 증명사진 */}
           <div className={styles.photoCol}>
-            <div className={styles.photoFrame}>
+            <div className={styles.photoFrame} ref={photoFrameRef}>
               {data.photo ? (
                 // <img> + object-fit:cover는 html2canvas에서 무시됨 →
                 // background-size:cover 방식으로 통일 (화면·저장 이미지 동일하게 크롭)
@@ -74,9 +85,6 @@ export function IDCard({ data }: IDCardProps) {
           </div>
         </div>
 
-        {/* ─── 하단 구분선 ─── */}
-        <div className={styles.footerDivider} />
-
         {/* ─── 푸터 ─── */}
         <div className={styles.footer}>
           <div className={styles.footerInfo}>
@@ -88,9 +96,9 @@ export function IDCard({ data }: IDCardProps) {
           {/* 홀로그램 자리 → 발바닥 장식 마크 */}
           <div className={styles.hologramZone}>
             <div className={styles.hologramPaws}>
-              <PawMark species={data.species} size={13} color="#C060A0" opacity={0.20} />
-              <PawMark species={data.species} size={46} color="#6A1090" opacity={0.90} />
-              <PawMark species={data.species} size={13} color="#C060A0" opacity={0.20} />
+              <PawMark species={data.species} size={10} color="#C060A0" opacity={0.20} />
+              <PawMark species={data.species} size={30} color="#6A1090" opacity={0.90} />
+              <PawMark species={data.species} size={10} color="#C060A0" opacity={0.20} />
             </div>
             <span className={styles.hologramLabel}>{ISSUER_SHORT[data.species]}</span>
           </div>

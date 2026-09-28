@@ -4,8 +4,9 @@
   "description": "우리집 강아지 귀여워 - 반려동물 신분증 만들기",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview"
+    "build": "tsc && vite build && ait build",
+    "preview": "vite preview",
+    "deploy": "ait deploy"
   },
   "type": "module",
   "dependencies": {
@@ -22,6 +23,7 @@
     "@types/react-dom": "^19.3.0",
     "@vitejs/plugin-react": "^6.1.1",
     "typescript": "^7.0.2",
-    "vite": "^8.3.0"
+    "vite": "^8.3.0",
+    "@apps-in-toss/devtools": "^3.6.0"
   }
 }

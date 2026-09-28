@@ -27,8 +27,12 @@ export function CardPage() {
   const [publishSheetOpen, setPublishSheetOpen] = useState(false)
   const [publishing, setPublishing] = useState(false)
   const [publishSuccess, setPublishSuccess] = useState(false)
+  const [saveSuccess, setSaveSuccess] = useState(false)
+  const [retryRatio, setRetryRatio] = useState<SaveRatio | null>(null)
+  const [saveErrorMsg, setSaveErrorMsg] = useState<string | null>(null)
   const adReadyRef = useRef(false)
   const rewardEarnedRef = useRef(false)
+  const saveGenRef = useRef(0)
   const pendingRatioRef = useRef<SaveRatio | null>(null)
   const unloadAdRef = useRef<(() => void) | null>(null)
 
@@ -100,15 +104,35 @@ export function CardPage() {
 
   async function doSave(ratio: SaveRatio) {
     if (!cardRef.current) return
+    const gen = ++saveGenRef.current   // 이전 진행 중인 호출을 무효화
+    console.log('[doSave] 시작 — ratio:', ratio, 'gen:', gen)
     setSaving(true)
+    setRetryRatio(null)
+    setSaveErrorMsg(null)
     try {
-      await saveCardAsImage(cardRef.current, card!.name, ratio)
+      const timeout = new Promise<never>((_, reject) =>
+        setTimeout(() => reject(new Error('시간 초과 (15초): 네이티브 브릿지 무응답')), 15_000)
+      )
+      await Promise.race([
+        saveCardAsImage(cardRef.current, card!.name, ratio),
+        timeout,
+      ])
+      if (gen !== saveGenRef.current) return  // 더 새로운 호출이 있으면 무시
+      console.log('[doSave] 저장 완료')
+      setSaveSuccess(true)
+      setTimeout(() => setSaveSuccess(false), 2500)
     } catch (err) {
-      console.error('이미지 저장 실패:', err)
-      setErrorMsg('이미지 저장에 실패했습니다. 다시 시도해주세요.')
-      setTimeout(() => setErrorMsg(null), 3000)
+      if (gen !== saveGenRef.current) return
+      const name = err instanceof Error ? err.name : 'Error'
+      const msg  = err instanceof Error ? err.message : String(err)
+      console.error('[doSave] 실패:', name, msg, err)
+      setRetryRatio(ratio)
+      setSaveErrorMsg(`${name}: ${msg}`)
     } finally {
-      setSaving(false)
+      if (gen === saveGenRef.current) {
+        console.log('[doSave] finally — setSaving(false)')
+        setSaving(false)
+      }
     }
   }
 
@@ -248,6 +272,28 @@ export function CardPage() {
 
       {errorMsg && (
         <div className={styles.errorToast}>{errorMsg}</div>
+      )}
+
+      {retryRatio && (
+        <div className={styles.errorToast}>
+          <span>저장에 실패했어요&nbsp;
+            <button
+              className={styles.toastLink}
+              onClick={() => doSave(retryRatio)}
+            >
+              다시 시도
+            </button>
+          </span>
+          {saveErrorMsg && (
+            <span className={styles.errorDetail}>{saveErrorMsg}</span>
+          )}
+        </div>
+      )}
+
+      {saveSuccess && (
+        <div className={styles.successToast}>
+          🖼️ 갤러리에 저장되었어요!
+        </div>
       )}
 
       {publishSuccess && (

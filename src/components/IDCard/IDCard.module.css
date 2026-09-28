@@ -134,6 +134,7 @@
   gap: 0;
   padding: 4% 4.5% 3%;
   min-height: 0;
+  overflow: hidden;
   position: relative;
   z-index: 1;
 }
@@ -184,14 +185,15 @@
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   gap: 3%;
-  width: 23%;
+  width: 22%;
 }
 
 .photoFrame {
   width: 100%;
   aspect-ratio: 1 / 1;
+  flex-shrink: 0;
   border: 2px solid #C060A0;
   border-radius: 10px;
   overflow: hidden;
@@ -229,25 +231,6 @@
 }
 
 /* ================================================================
-   하단 구분선
-   ================================================================ */
-.footerDivider {
-  height: 1.5px;
-  margin: 0 4%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(192, 100, 180, 0.3) 15%,
-    rgba(196, 96, 122, 0.3) 50%,
-    rgba(192, 100, 180, 0.3) 85%,
-    transparent
-  );
-  position: relative;
-  z-index: 1;
-  flex-shrink: 0;
-}
-
-/* ================================================================
    푸터
    ================================================================ */
 .footer {
@@ -259,6 +242,7 @@
   position: relative;
   z-index: 1;
 }
+
 
 .footerInfo {
   display: flex;
@@ -302,10 +286,10 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 3px;
-  padding: 5px 12px;
+  gap: 2px;
+  padding: 3px 8px;
   border: 1.5px solid rgba(192, 100, 180, 0.25);
-  border-radius: 10px;
+  border-radius: 8px;
   background: linear-gradient(
     135deg,
     rgba(255, 255, 255, 0.75) 0%,
@@ -317,11 +301,11 @@
 .hologramPaws {
   display: flex;
   align-items: flex-end;
-  gap: 3px;
+  gap: 2px;
 }
 
 .hologramLabel {
-  font-size: 0.48em;
+  font-size: 0.42em;
   color: rgba(180, 80, 160, 0.7);
   letter-spacing: 0.12em;
   font-weight: 700;
