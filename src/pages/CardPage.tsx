@@ -12,7 +12,7 @@ import { FeedPost } from '../types/pet'
 import { loadFullScreenAd, showFullScreenAd } from '@apps-in-toss/web-framework'
 import styles from './CardPage.module.css'
 
-const AD_GROUP_ID = 'ait-ad-test-rewarded-id'
+const AD_GROUP_ID = 'ait.v2.live.3bde7acb281044f8'
 
 type CardType = 'id' | 'profile'
 
