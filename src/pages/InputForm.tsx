@@ -84,9 +84,13 @@ export function InputForm() {
   }
 
   async function handleSelectPhoto() {
-    if (Device.getAlbumItems.isSupported()) {
-      const items = await Device.getAlbumItems({ types: ['PHOTO'], maxCount: 1 })
-      if (items.length > 0) setPendingPhoto(items[0].dataUri)
+    if (Device.os === 'android' && Device.getAlbumItems.isSupported()) {
+      try {
+        const items = await Device.getAlbumItems({ types: ['PHOTO'], maxCount: 1 })
+        if (items.length > 0) setPendingPhoto(items[0].dataUri)
+      } catch {
+        fileInputRef.current?.click()
+      }
     } else {
       fileInputRef.current?.click()
     }

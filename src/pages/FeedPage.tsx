@@ -164,22 +164,29 @@ export function FeedPage() {
   }
 
   async function handleSelectCommentPhoto(e: React.MouseEvent) {
-    if (Device.getAlbumItems.isSupported()) {
-      e.preventDefault()
+    if (Device.os !== 'android' || !Device.getAlbumItems.isSupported()) {
+      // iOS 또는 미지원 환경 → label 기본 동작으로 file input이 열림
+      return
+    }
+    // Android 네이티브 피커: preventDefault는 분기 확정 후에만 호출
+    e.preventDefault()
+    setPhotoLoading(true)
+    try {
       const items = await Device.getAlbumItems({ types: ['PHOTO'], maxCount: 1 })
       if (items.length > 0) {
-        setPhotoLoading(true)
         try {
           const resized = await resizeImage(items[0].dataUri, 1200)
           setCommentPhoto(resized)
         } catch {
           setCommentPhoto(items[0].dataUri)
-        } finally {
-          setPhotoLoading(false)
         }
       }
+    } catch {
+      // 네이티브 피커 실패 시 file input 폴백
+      commentPhotoRef.current?.click()
+    } finally {
+      setPhotoLoading(false)
     }
-    // isSupported()가 false면 label 기본 동작으로 file input이 열림
   }
 
   function handleSubmitComment(e: React.FormEvent) {
