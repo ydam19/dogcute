@@ -179,9 +179,6 @@ export function CardPage() {
   return (
     <div className={styles.page}>
       <header className={styles.header}>
-        <button className={styles.backBtn} onClick={() => navigate('/')}>
-          ← 다시 만들기
-        </button>
         <h1 className={styles.title}>
           {cardType === 'id' ? '반려동물 신분증' : '프로필 카드'}
         </h1>

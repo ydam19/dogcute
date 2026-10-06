@@ -236,7 +236,6 @@ export function FeedPage() {
   return (
     <div className={styles.page}>
       <header className={styles.header}>
-        <button className={styles.backBtn} onClick={() => navigate(-1)}>← 돌아가기</button>
         <h1 className={styles.title}>🐾 반려동물 피드</h1>
       </header>
 
@@ -310,7 +309,7 @@ export function FeedPage() {
           <div className={styles.expandOverlay}>
             {/* 헤더 */}
             <div className={styles.expandHeader}>
-              <button className={styles.expandClose} onClick={() => setExpandedPost(null)}>← 닫기</button>
+              <button className={styles.expandClose} onClick={() => setExpandedPost(null)}>✕</button>
               <span className={styles.expandTitle}>{expandedPost.petName}</span>
               <div style={{ width: 60 }} />
             </div>
