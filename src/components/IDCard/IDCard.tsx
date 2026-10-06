@@ -50,9 +50,6 @@ export function IDCard({ data }: IDCardProps) {
           </div>
         </div>
 
-        {/* 금색 스트라이프 */}
-        <div className={styles.goldStripe} />
-
         {/* ─── 본문 ─── */}
         <div className={styles.body}>
           {/* 왼쪽: 인적사항 */}
@@ -60,7 +57,7 @@ export function IDCard({ data }: IDCardProps) {
             <InfoRow label="🐾 성명" value={data.name} isName />
             <InfoRow label="💜 성별" value={GENDER_LABEL[data.gender]} />
             <InfoRow label="🎂 탄생일" value={data.birthdayUnknown ? '비공개' : formatKoreanDate(data.birthday)} />
-            <InfoRow label="✨ 특이사항" value={data.personality || '—'} />
+            <InfoRow label="✨ 특이사항" value={data.personality || '—'} small />
             <InfoRow label="🏷️ 종" value={SPECIES_LABEL[data.species]} />
           </div>
 
@@ -113,15 +110,21 @@ function InfoRow({
   label,
   value,
   isName,
+  small,
 }: {
   label: string
   value: string
   isName?: boolean
+  small?: boolean
 }) {
   return (
     <div className={styles.infoRow}>
       <span className={styles.infoLabel}>{label}</span>
-      <span className={`${styles.infoValue} ${isName ? styles.infoValueName : ''}`}>
+      <span className={[
+        styles.infoValue,
+        isName ? styles.infoValueName : '',
+        small ? styles.infoValueSmall : '',
+      ].join(' ')}>
         {value}
       </span>
     </div>

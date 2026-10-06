@@ -327,6 +327,77 @@
   font-family: monospace;
 }
 
+/* 이미지 저장 모달 */
+.imageModalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.88);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 300;
+  padding: 24px 16px;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.imageModal {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  max-width: 100%;
+}
+
+.imageModalClose {
+  position: absolute;
+  top: -14px;
+  right: -14px;
+  width: 38px;
+  height: 38px;
+  background: rgba(255, 255, 255, 0.18);
+  border: 1.5px solid rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  transition: background 0.15s;
+}
+
+.imageModalClose:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.imageModalImg {
+  max-width: min(100%, 400px);
+  max-height: 70dvh;
+  object-fit: contain;
+  border-radius: 14px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+  display: block;
+  -webkit-touch-callout: default;
+}
+
+.imageModalHint {
+  color: #fff;
+  font-size: 1.15rem;
+  font-weight: 700;
+  font-family: 'Gaegu', 'Apple SD Gothic Neo', sans-serif;
+  text-align: center;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  margin: 0;
+  letter-spacing: 0.01em;
+}
+
 .savingOverlay p {
   background: #fff;
   padding: 18px 32px;

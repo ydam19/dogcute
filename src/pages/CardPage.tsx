@@ -6,7 +6,7 @@ import { IDCard } from '../components/IDCard/IDCard'
 import { ProfileCard } from '../components/ProfileCard/ProfileCard'
 import { RatioSheet } from '../components/RatioSheet'
 import { PublishSheet } from '../components/PublishSheet'
-import { saveCardAsImage, buildCardCanvas, SaveRatio } from '../utils/saveCardAsImage'
+import { buildCardCanvas, SaveRatio } from '../utils/saveCardAsImage'
 import { addPost } from '../utils/feedStorage'
 import { FeedPost } from '../types/pet'
 import { loadFullScreenAd, showFullScreenAd } from '@apps-in-toss/web-framework'
@@ -27,9 +27,10 @@ export function CardPage() {
   const [publishSheetOpen, setPublishSheetOpen] = useState(false)
   const [publishing, setPublishing] = useState(false)
   const [publishSuccess, setPublishSuccess] = useState(false)
-  const [saveSuccess, setSaveSuccess] = useState(false)
+
   const [retryRatio, setRetryRatio] = useState<SaveRatio | null>(null)
   const [saveErrorMsg, setSaveErrorMsg] = useState<string | null>(null)
+  const [saveImageUrl, setSaveImageUrl] = useState<string | null>(null)
   const adReadyRef = useRef(false)
   const rewardEarnedRef = useRef(false)
   const saveGenRef = useRef(0)
@@ -104,23 +105,16 @@ export function CardPage() {
 
   async function doSave(ratio: SaveRatio) {
     if (!cardRef.current) return
-    const gen = ++saveGenRef.current   // 이전 진행 중인 호출을 무효화
+    const gen = ++saveGenRef.current
     console.log('[doSave] 시작 — ratio:', ratio, 'gen:', gen)
     setSaving(true)
     setRetryRatio(null)
     setSaveErrorMsg(null)
     try {
-      const timeout = new Promise<never>((_, reject) =>
-        setTimeout(() => reject(new Error('시간 초과 (15초): 네이티브 브릿지 무응답')), 15_000)
-      )
-      await Promise.race([
-        saveCardAsImage(cardRef.current, card!.name, ratio),
-        timeout,
-      ])
-      if (gen !== saveGenRef.current) return  // 더 새로운 호출이 있으면 무시
-      console.log('[doSave] 저장 완료')
-      setSaveSuccess(true)
-      setTimeout(() => setSaveSuccess(false), 2500)
+      const canvas = await buildCardCanvas(cardRef.current, ratio)
+      if (gen !== saveGenRef.current) return
+      const dataUrl = canvas.toDataURL('image/jpeg', 0.85)
+      setSaveImageUrl(dataUrl)
     } catch (err) {
       if (gen !== saveGenRef.current) return
       const name = err instanceof Error ? err.name : 'Error'
@@ -130,7 +124,6 @@ export function CardPage() {
       setSaveErrorMsg(`${name}: ${msg}`)
     } finally {
       if (gen === saveGenRef.current) {
-        console.log('[doSave] finally — setSaving(false)')
         setSaving(false)
       }
     }
@@ -290,12 +283,6 @@ export function CardPage() {
         </div>
       )}
 
-      {saveSuccess && (
-        <div className={styles.successToast}>
-          🖼️ 갤러리에 저장되었어요!
-        </div>
-      )}
-
       {publishSuccess && (
         <div className={styles.successToast}>
           🐾 피드에 게시됐어요!&nbsp;
@@ -316,6 +303,27 @@ export function CardPage() {
         onSelect={handleRatioSelect}
         onClose={() => setSheetOpen(false)}
       />
+
+      {saveImageUrl && (
+        <div className={styles.imageModalOverlay} onClick={() => setSaveImageUrl(null)}>
+          <div className={styles.imageModal} onClick={e => e.stopPropagation()}>
+            <button
+              className={styles.imageModalClose}
+              onClick={() => setSaveImageUrl(null)}
+              aria-label="닫기"
+            >
+              ✕
+            </button>
+            <img
+              src={saveImageUrl}
+              alt="저장할 카드 이미지"
+              className={styles.imageModalImg}
+              draggable={false}
+            />
+            <p className={styles.imageModalHint}>📱 사진을 길게 눌러서 저장하세요</p>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

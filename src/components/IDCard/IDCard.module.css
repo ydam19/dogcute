@@ -3,11 +3,11 @@
    색 팔레트: 사랑스러운 핑크 + 연보라 포인트
    ================================================================ */
 
-/* ── 비율 컨테이너: 실물 카드 856:540 ≈ 1.585:1 ── */
+/* ── 비율 컨테이너: 856:620 ≈ 1.381:1 (세로 확장) ── */
 .cardRatio {
   width: 100%;
   max-width: 480px;
-  aspect-ratio: 856 / 540;
+  aspect-ratio: 856 / 620;
   position: relative;
 }
 
@@ -107,24 +107,6 @@
   font-weight: 300;
 }
 
-/* ── 포인트 스트라이프 (핑크-라벤더) ── */
-.goldStripe {
-  height: 4px;
-  background: linear-gradient(
-    90deg,
-    #C47090 0%,
-    #F0A8BC 20%,
-    #DFB0E8 40%,
-    #F0A8BC 60%,
-    #C090C8 80%,
-    #F0A8BC 90%,
-    #C47090 100%
-  );
-  flex-shrink: 0;
-  z-index: 1;
-  position: relative;
-}
-
 /* ================================================================
    본문
    ================================================================ */
@@ -145,13 +127,13 @@
   flex-direction: column;
   justify-content: space-around;
   padding-right: 3%;
+  gap: 1.5%;
 }
 
 .infoRow {
   display: flex;
-  align-items: baseline;
+  align-items: flex-start;
   gap: 3%;
-  line-height: 1;
 }
 
 .infoLabel {
@@ -170,6 +152,13 @@
   font-weight: 700;
   letter-spacing: 0.02em;
   font-family: 'Gaegu', sans-serif;
+  line-height: 1.35;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+.infoValueSmall {
+  font-size: 0.68em;
 }
 
 .infoValueName {
