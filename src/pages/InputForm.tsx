@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import heic2any from 'heic2any'
+import { Device } from '@apps-in-toss/web-framework'
 import { PetFormData, Gender, Species } from '../types/pet'
 import { generateIssueNumber, getNextSequence } from '../utils/generateIssueNumber'
 import { usePet } from '../context/PetContext'
@@ -82,6 +83,15 @@ export function InputForm() {
     setPendingPhoto(null)
   }
 
+  async function handleSelectPhoto() {
+    if (Device.getAlbumItems.isSupported()) {
+      const items = await Device.getAlbumItems({ types: ['PHOTO'], maxCount: 1 })
+      if (items.length > 0) setPendingPhoto(items[0].dataUri)
+    } else {
+      fileInputRef.current?.click()
+    }
+  }
+
   function validate(): boolean {
     const newErrors: typeof errors = {}
     if (!form.name.trim()) newErrors.name = '이름을 입력해주세요'
@@ -126,7 +136,7 @@ export function InputForm() {
           <label className={styles.sectionTitle}>사진</label>
           <div
             className={styles.photoUpload}
-            onClick={() => fileInputRef.current?.click()}
+            onClick={handleSelectPhoto}
           >
             {form.photo ? (
               <img src={form.photo} alt="반려동물 사진" className={styles.photoPreview} />
@@ -141,7 +151,7 @@ export function InputForm() {
             <button
               type="button"
               className={styles.retakeBtn}
-              onClick={() => fileInputRef.current?.click()}
+              onClick={handleSelectPhoto}
             >
               사진 다시 선택
             </button>

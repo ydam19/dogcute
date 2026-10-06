@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import heic2any from 'heic2any'
+import { Device } from '@apps-in-toss/web-framework'
 import { FeedPost, Comment } from '../types/pet'
 import {
   getPosts, deletePost, getLikedIds, toggleLike,
@@ -160,6 +161,25 @@ export function FeedPage() {
       setPhotoLoading(false)
     }
     reader.readAsDataURL(blob)
+  }
+
+  async function handleSelectCommentPhoto(e: React.MouseEvent) {
+    if (Device.getAlbumItems.isSupported()) {
+      e.preventDefault()
+      const items = await Device.getAlbumItems({ types: ['PHOTO'], maxCount: 1 })
+      if (items.length > 0) {
+        setPhotoLoading(true)
+        try {
+          const resized = await resizeImage(items[0].dataUri, 1200)
+          setCommentPhoto(resized)
+        } catch {
+          setCommentPhoto(items[0].dataUri)
+        } finally {
+          setPhotoLoading(false)
+        }
+      }
+    }
+    // isSupported()가 false면 label 기본 동작으로 file input이 열림
   }
 
   function handleSubmitComment(e: React.FormEvent) {
@@ -438,6 +458,7 @@ export function FeedPage() {
                   <label
                     className={`${styles.commentPhotoBtn} ${photoLoading ? styles.commentPhotoBtnLoading : ''}`}
                     aria-label="사진 첨부"
+                    onClick={handleSelectCommentPhoto}
                   >
                     {photoLoading ? <span className={styles.photoSpinner} /> : '📷'}
                     <input
